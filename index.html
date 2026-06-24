@@ -3,19 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>会计分录摸鱼默写小工具</title>
+  <title>中级会计分录默写</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page-shell">
+  <div class="page-shell" id="mainShell">
     <header class="topbar">
-      <div class="brand"><span class="logo">H</span><span>会计分录摸鱼默写小工具</span></div>
+      <div class="brand">
+        <span class="logo">会</span>
+        <span>中级会计分录默写</span>
+      </div>
       <nav class="tabs" aria-label="主导航">
         <button class="tab active" data-page="practice">默写</button>
+        <button class="tab" data-page="random">随机</button>
         <button class="tab" data-page="catalog">分录表</button>
         <button class="tab" data-page="editor">编辑</button>
-        <button class="tab" data-page="poster">伪装</button>
-        <button class="tab" data-page="settings">设置</button>
+        <button class="tab" data-page="setting">设置</button>
         <button id="bossBtn" class="boss-btn" type="button">老板来了</button>
       </nav>
     </header>
@@ -23,67 +26,116 @@
     <main>
       <section id="practice" class="panel active-panel">
         <div class="practice-head">
-          <h1>专题练习</h1>
+          <div>
+            <h1>按专题顺序默写</h1>
+            <p class="muted">按章节顺序练习，适合从头过一遍分录。</p>
+          </div>
           <select id="topicSelect"></select>
         </div>
+
         <div class="question-card">
-          <div class="question-label">默写题：</div>
+          <div class="question-label">默写题</div>
           <div id="questionText" class="question-text"></div>
+          <div id="questionMeta" class="question-meta"></div>
         </div>
-        <label class="field-label" for="answerInput">你的默写：</label>
-        <textarea id="answerInput" class="answer-input" placeholder="在这里默写分录，例如：&#10;借：固定资产&#10;    应交税费——应交增值税（进项税额）&#10;贷：银行存款"></textarea>
-        <div class="actions">
-          <button id="showAnswerBtn" class="primary">看答案</button>
-          <button id="markRightBtn">正确</button>
-          <button id="markWrongBtn">错误</button>
-          <button id="markHardBtn">不熟悉</button>
-          <button id="nextBtn">下一条</button>
+
+        <label class="field-label" for="answerInput">你的默写</label>
+        <textarea id="answerInput" class="answer-input" placeholder="在这里默写分录，例如：
+借：固定资产清理
+    累计折旧
+贷：固定资产"></textarea>
+
+        <div class="actions inline-actions">
+          <button id="showAnswerBtn" class="primary" type="button">看答案</button>
+          <button id="markRightBtn" type="button">正确</button>
+          <button id="markWrongBtn" type="button">错误</button>
+          <button id="markHardBtn" type="button">不熟悉</button>
+          <button id="nextBtn" type="button">下一条</button>
         </div>
+
         <section id="answerBox" class="answer-box hidden">
           <div class="answer-title">参考答案</div>
           <pre id="answerText"></pre>
-          <div id="tipText" class="tip-text"></div>
+        </section>
+      </section>
+
+      <section id="random" class="panel">
+        <div class="practice-head">
+          <div>
+            <h1>随机抽题练习</h1>
+            <p class="muted">从全部题库里随机抽题，适合考前查漏补缺。</p>
+          </div>
+          <button id="randomPickBtn" type="button">换一题</button>
+        </div>
+
+        <div class="question-card">
+          <div class="question-label">随机题</div>
+          <div id="randomQuestionText" class="question-text"></div>
+          <div id="randomQuestionMeta" class="question-meta"></div>
+        </div>
+
+        <label class="field-label" for="randomAnswerInput">你的默写</label>
+        <textarea id="randomAnswerInput" class="answer-input" placeholder="在这里默写随机抽到的分录"></textarea>
+
+        <div class="actions inline-actions">
+          <button id="randomShowAnswerBtn" class="primary" type="button">看答案</button>
+          <button id="randomMarkRightBtn" type="button">正确</button>
+          <button id="randomMarkWrongBtn" type="button">错误</button>
+          <button id="randomMarkHardBtn" type="button">不熟悉</button>
+          <button id="randomNextBtn" type="button">下一条</button>
+        </div>
+
+        <section id="randomAnswerBox" class="answer-box hidden">
+          <div class="answer-title">参考答案</div>
+          <pre id="randomAnswerText"></pre>
         </section>
       </section>
 
       <section id="catalog" class="panel">
         <div class="section-title-row">
-          <h1>分录表</h1>
-          <input id="searchInput" class="search" placeholder="搜索专题 / 知识点" />
+          <div>
+            <h1>分录表</h1>
+            <p class="muted">按“序号｜专题｜知识点｜错/不熟”查看题库。</p>
+          </div>
+          <input id="searchInput" class="search" placeholder="搜索专题 / 知识点 / 分录题" />
         </div>
         <div class="filter-row">
           <select id="catalogTopicFilter"></select>
-          <button id="onlyHardBtn">只看不熟悉</button>
-          <button id="resetFilterBtn">恢复全部</button>
+          <button id="onlyHardBtn" type="button">只看错/不熟</button>
+          <button id="resetFilterBtn" type="button">恢复全部</button>
         </div>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>序号</th><th>专题</th><th>知识点</th><th>错/不熟</th><th>下次</th></tr>
+              <tr>
+                <th>序号</th>
+                <th>专题</th>
+                <th>知识点</th>
+                <th>错/不熟</th>
+              </tr>
             </thead>
             <tbody id="catalogBody"></tbody>
           </table>
         </div>
         <div class="bottom-actions">
-          <button id="exportBtn">导出数据</button>
+          <button id="exportBtn" type="button">导出数据</button>
           <label class="file-btn">导入数据<input id="importInput" type="file" accept="application/json" /></label>
-          <button id="restoreBtn">恢复原版</button>
+          <button id="restoreBtn" type="button">恢复原版</button>
         </div>
       </section>
 
       <section id="editor" class="panel">
-        <h1>内置分录编辑</h1>
-        <p class="muted">可以按自己的讲义增删改。编辑后会自动保存到你的浏览器里。</p>
+        <h1>编辑分录</h1>
+        <p class="muted">可以新增或修改分录。保存后会存到当前浏览器里。</p>
         <div class="editor-grid">
           <div class="editor-list" id="editorList"></div>
           <form id="entryForm" class="entry-form">
             <input type="hidden" id="entryId" />
-            <label>专题<input id="entryTopic" required /></label>
-            <label>知识点标题<input id="entryTitle" required /></label>
-            <label>默写题<textarea id="entryQuestion" required></textarea></label>
+            <label>专题<input id="entryTopic" required placeholder="例如：第二章 存货" /></label>
+            <label>知识点<input id="entryTitle" required placeholder="例如：存货期末的会计处理" /></label>
+            <label>默写题<textarea id="entryQuestion" required placeholder="例如：计提存货跌价准备的会计处理"></textarea></label>
             <label>参考答案<textarea id="entryAnswer" required></textarea></label>
-            <label>提示/口诀<textarea id="entryTip"></textarea></label>
-            <div class="actions">
+            <div class="actions inline-actions">
               <button class="primary" type="submit">保存</button>
               <button type="button" id="newEntryBtn">新增空白</button>
               <button type="button" id="deleteEntryBtn">删除当前</button>
@@ -92,75 +144,73 @@
         </div>
       </section>
 
-      <section id="poster" class="panel">
-        <h1>伪装页面设置</h1>
-        <p class="muted">这里才是真正的伪装功能：设置好后，点“老板来了”会立刻切换成一页正常的工作/学习记录，分录默写内容会被完全藏起来。</p>
+      <section id="setting" class="panel">
+        <h1>伪装界面设置</h1>
+        <p class="muted">设置好后，点击“老板来了”会立刻切换成工作记录或表格页面，看起来像正常办公。</p>
         <div class="poster-grid">
           <div class="poster-form">
-            <label class="field-label">伪装标题<input id="fakeTitle" placeholder="例如：今日工作记录" /></label>
-            <label class="field-label">伪装类型
+            <label class="field-label">标题
+              <input id="fakeTitle" placeholder="例如：今日工作记录" />
+            </label>
+            <label class="field-label">类型
               <select id="fakeType">
                 <option value="work">工作记录</option>
-                <option value="study">学习计划</option>
-                <option value="notes">资料整理</option>
+                <option value="table">表格</option>
+                <option value="todo">待办清单</option>
               </select>
             </label>
-            <label class="field-label">正文内容<textarea id="fakeBody" placeholder="每行写一条，看起来更像真的记录"></textarea></label>
-            <label class="field-label">图片地址，可不填<input id="fakeImage" placeholder="可以粘贴图片链接" /></label>
-            <label class="field-label file-line">上传伪装图片<input id="fakeImageFile" type="file" accept="image/*" /></label>
-            <label class="field-label">图片显示方式
+            <label class="field-label">正文
+              <textarea id="fakeBody" placeholder="每行写一条内容，看起来更像工作记录"></textarea>
+            </label>
+            <label class="field-label">图片
+              <input id="fakeImage" placeholder="可粘贴图片链接，也可以上传图片" />
+            </label>
+            <label class="field-label file-line">上传图片
+              <input id="fakeImageFile" type="file" accept="image/*" />
+            </label>
+            <label class="field-label">图片显示
               <select id="fakeImageMode">
                 <option value="none">不显示图片</option>
-                <option value="card">显示在右侧卡片</option>
-                <option value="watermark">当作淡淡背景图</option>
+                <option value="card">右侧卡片</option>
+                <option value="watermark">淡淡背景</option>
               </select>
             </label>
-            <label class="field-label">背景/图片透明度 <input id="fakeOpacity" type="range" min="20" max="100" /></label>
-            <div class="actions">
-              <button id="savePosterBtn" class="primary" type="button">保存伪装设置</button>
-              <button id="enterFakeBtn" type="button">预览/进入伪装</button>
+            <label class="field-label">透明度
+              <input id="fakeOpacity" type="range" min="20" max="100" />
+            </label>
+            <div class="actions inline-actions setting-actions">
+              <button id="savePosterBtn" class="primary" type="button">保存设置</button>
+              <button id="enterFakeBtn" type="button">预览伪装</button>
               <button id="resetPosterBtn" type="button">恢复默认</button>
             </div>
-            <p class="muted small-tip">快捷键：按 F2 立刻进入伪装；进入伪装后按 Esc 返回默写页面。</p>
+            <p class="muted small-tip">快捷键：按 F2 进入伪装；进入伪装后按 Esc 返回。</p>
           </div>
           <div class="fake-preview" id="fakePreview"></div>
-        </div>
-      </section>
-
-      <section id="settings" class="panel">
-        <h1>设置</h1>
-        <div class="setting-card">
-          <label><input id="shuffleToggle" type="checkbox" /> 随机抽题</label>
-          <label><input id="autoHideToggle" type="checkbox" /> 下一题自动隐藏答案</label>
-          <label><input id="largeFontToggle" type="checkbox" /> 大字号模式</label>
-        </div>
-        <div class="stat-card">
-          <h2>学习统计</h2>
-          <div id="statsText"></div>
         </div>
       </section>
     </main>
   </div>
 
-
   <div id="fakeMode" class="fake-mode hidden" aria-hidden="true">
-    <header class="fake-mode-head">
-      <div>
-        <div class="fake-system-title">资料协作中心</div>
-        <div id="fakeNow" class="fake-now"></div>
+    <div class="fake-window">
+      <header class="fake-window-bar">
+        <div class="window-dots"><span></span><span></span><span></span></div>
+        <div class="fake-system-title">协同办公系统</div>
+        <button id="exitFakeBtn" class="fake-exit" type="button">返回</button>
+      </header>
+      <div class="fake-mode-layout">
+        <aside class="fake-side">
+          <div class="fake-side-item active">工作台</div>
+          <div class="fake-side-item">项目记录</div>
+          <div class="fake-side-item">数据表格</div>
+          <div class="fake-side-item">待办事项</div>
+          <div class="fake-side-item">文档中心</div>
+        </aside>
+        <section id="fakeContent" class="fake-content"></section>
       </div>
-      <button id="exitFakeBtn" class="fake-exit" type="button">返回默写</button>
-    </header>
-    <div class="fake-mode-layout">
-      <aside class="fake-side">
-        <div class="fake-side-item active">今日记录</div>
-        <div class="fake-side-item">待办事项</div>
-        <div class="fake-side-item">项目文档</div>
-        <div class="fake-side-item">数据汇总</div>
-      </aside>
-      <section id="fakeContent" class="fake-content"></section>
     </div>
   </div>
+
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
