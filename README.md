@@ -1,13 +1,5 @@
-# 中级会计分录默写小工具
+# 会计分录摸鱼默写小工具
 
-这是一个可以直接放到 GitHub Pages 的静态网站，不需要服务器，不需要数据库。
+已导入《2026〈中级会计实务〉166个分录大全》扫描版讲义中的分录内容。
 
-## 文件说明
-- `index.html`：网页主体
-- `style.css`：页面样式
-- `app.js`：功能逻辑
-- `data.js`：默认分录题库
-- `.nojekyll`：让 GitHub Pages 直接发布静态文件
-
-## 使用
-打开 `index.html` 即可本地预览。上传到 GitHub 后，在 Settings → Pages 里选择 Deploy from a branch，分支选 `main`，文件夹选 `/root`。
+说明：讲义为扫描图片版，题库内容经 OCR 识别整理，建议上线后先抽查重点章节。
