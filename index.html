@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>中级会计分录默写小工具</title>
+  <title>会计分录摸鱼默写小工具</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page-shell">
     <header class="topbar">
-      <div class="brand"><span class="logo">H</span><span>中级会计分录默写</span></div>
+      <div class="brand"><span class="logo">H</span><span>会计分录摸鱼默写小工具</span></div>
       <nav class="tabs" aria-label="主导航">
         <button class="tab active" data-page="practice">默写</button>
         <button class="tab" data-page="catalog">分录表</button>
         <button class="tab" data-page="editor">编辑</button>
         <button class="tab" data-page="poster">伪装</button>
         <button class="tab" data-page="settings">设置</button>
+        <button id="bossBtn" class="boss-btn" type="button">老板来了</button>
       </nav>
     </header>
 
@@ -93,12 +94,37 @@
 
       <section id="poster" class="panel">
         <h1>伪装页面设置</h1>
-        <p class="muted">类似你视频里的“伪装内容自己设置”：适合把页面临时切成学习计划/工作记录。</p>
-        <label class="field-label">标题<input id="fakeTitle" /></label>
-        <label class="field-label">正文<textarea id="fakeBody"></textarea></label>
-        <label class="field-label">透明度 <input id="fakeOpacity" type="range" min="20" max="100" /></label>
-        <div class="actions"><button id="savePosterBtn" class="primary">保存伪装页</button></div>
-        <div class="fake-preview" id="fakePreview"></div>
+        <p class="muted">这里才是真正的伪装功能：设置好后，点“老板来了”会立刻切换成一页正常的工作/学习记录，分录默写内容会被完全藏起来。</p>
+        <div class="poster-grid">
+          <div class="poster-form">
+            <label class="field-label">伪装标题<input id="fakeTitle" placeholder="例如：今日工作记录" /></label>
+            <label class="field-label">伪装类型
+              <select id="fakeType">
+                <option value="work">工作记录</option>
+                <option value="study">学习计划</option>
+                <option value="notes">资料整理</option>
+              </select>
+            </label>
+            <label class="field-label">正文内容<textarea id="fakeBody" placeholder="每行写一条，看起来更像真的记录"></textarea></label>
+            <label class="field-label">图片地址，可不填<input id="fakeImage" placeholder="可以粘贴图片链接" /></label>
+            <label class="field-label file-line">上传伪装图片<input id="fakeImageFile" type="file" accept="image/*" /></label>
+            <label class="field-label">图片显示方式
+              <select id="fakeImageMode">
+                <option value="none">不显示图片</option>
+                <option value="card">显示在右侧卡片</option>
+                <option value="watermark">当作淡淡背景图</option>
+              </select>
+            </label>
+            <label class="field-label">背景/图片透明度 <input id="fakeOpacity" type="range" min="20" max="100" /></label>
+            <div class="actions">
+              <button id="savePosterBtn" class="primary" type="button">保存伪装设置</button>
+              <button id="enterFakeBtn" type="button">预览/进入伪装</button>
+              <button id="resetPosterBtn" type="button">恢复默认</button>
+            </div>
+            <p class="muted small-tip">快捷键：按 F2 立刻进入伪装；进入伪装后按 Esc 返回默写页面。</p>
+          </div>
+          <div class="fake-preview" id="fakePreview"></div>
+        </div>
       </section>
 
       <section id="settings" class="panel">
@@ -116,6 +142,25 @@
     </main>
   </div>
 
+
+  <div id="fakeMode" class="fake-mode hidden" aria-hidden="true">
+    <header class="fake-mode-head">
+      <div>
+        <div class="fake-system-title">资料协作中心</div>
+        <div id="fakeNow" class="fake-now"></div>
+      </div>
+      <button id="exitFakeBtn" class="fake-exit" type="button">返回默写</button>
+    </header>
+    <div class="fake-mode-layout">
+      <aside class="fake-side">
+        <div class="fake-side-item active">今日记录</div>
+        <div class="fake-side-item">待办事项</div>
+        <div class="fake-side-item">项目文档</div>
+        <div class="fake-side-item">数据汇总</div>
+      </aside>
+      <section id="fakeContent" class="fake-content"></section>
+    </div>
+  </div>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
