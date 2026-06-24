@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中级会计分录默写小工具</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand"><span class="logo">H</span><span>中级会计分录默写</span></div>
+      <nav class="tabs" aria-label="主导航">
+        <button class="tab active" data-page="practice">默写</button>
+        <button class="tab" data-page="catalog">分录表</button>
+        <button class="tab" data-page="editor">编辑</button>
+        <button class="tab" data-page="poster">伪装</button>
+        <button class="tab" data-page="settings">设置</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="practice" class="panel active-panel">
+        <div class="practice-head">
+          <h1>专题练习</h1>
+          <select id="topicSelect"></select>
+        </div>
+        <div class="question-card">
+          <div class="question-label">默写题：</div>
+          <div id="questionText" class="question-text"></div>
+        </div>
+        <label class="field-label" for="answerInput">你的默写：</label>
+        <textarea id="answerInput" class="answer-input" placeholder="在这里默写分录，例如：&#10;借：固定资产&#10;    应交税费——应交增值税（进项税额）&#10;贷：银行存款"></textarea>
+        <div class="actions">
+          <button id="showAnswerBtn" class="primary">看答案</button>
+          <button id="markRightBtn">正确</button>
+          <button id="markWrongBtn">错误</button>
+          <button id="markHardBtn">不熟悉</button>
+          <button id="nextBtn">下一条</button>
+        </div>
+        <section id="answerBox" class="answer-box hidden">
+          <div class="answer-title">参考答案</div>
+          <pre id="answerText"></pre>
+          <div id="tipText" class="tip-text"></div>
+        </section>
+      </section>
+
+      <section id="catalog" class="panel">
+        <div class="section-title-row">
+          <h1>分录表</h1>
+          <input id="searchInput" class="search" placeholder="搜索专题 / 知识点" />
+        </div>
+        <div class="filter-row">
+          <select id="catalogTopicFilter"></select>
+          <button id="onlyHardBtn">只看不熟悉</button>
+          <button id="resetFilterBtn">恢复全部</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>序号</th><th>专题</th><th>知识点</th><th>错/不熟</th><th>下次</th></tr>
+            </thead>
+            <tbody id="catalogBody"></tbody>
+          </table>
+        </div>
+        <div class="bottom-actions">
+          <button id="exportBtn">导出数据</button>
+          <label class="file-btn">导入数据<input id="importInput" type="file" accept="application/json" /></label>
+          <button id="restoreBtn">恢复原版</button>
+        </div>
+      </section>
+
+      <section id="editor" class="panel">
+        <h1>内置分录编辑</h1>
+        <p class="muted">可以按自己的讲义增删改。编辑后会自动保存到你的浏览器里。</p>
+        <div class="editor-grid">
+          <div class="editor-list" id="editorList"></div>
+          <form id="entryForm" class="entry-form">
+            <input type="hidden" id="entryId" />
+            <label>专题<input id="entryTopic" required /></label>
+            <label>知识点标题<input id="entryTitle" required /></label>
+            <label>默写题<textarea id="entryQuestion" required></textarea></label>
+            <label>参考答案<textarea id="entryAnswer" required></textarea></label>
+            <label>提示/口诀<textarea id="entryTip"></textarea></label>
+            <div class="actions">
+              <button class="primary" type="submit">保存</button>
+              <button type="button" id="newEntryBtn">新增空白</button>
+              <button type="button" id="deleteEntryBtn">删除当前</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="poster" class="panel">
+        <h1>伪装页面设置</h1>
+        <p class="muted">类似你视频里的“伪装内容自己设置”：适合把页面临时切成学习计划/工作记录。</p>
+        <label class="field-label">标题<input id="fakeTitle" /></label>
+        <label class="field-label">正文<textarea id="fakeBody"></textarea></label>
+        <label class="field-label">透明度 <input id="fakeOpacity" type="range" min="20" max="100" /></label>
+        <div class="actions"><button id="savePosterBtn" class="primary">保存伪装页</button></div>
+        <div class="fake-preview" id="fakePreview"></div>
+      </section>
+
+      <section id="settings" class="panel">
+        <h1>设置</h1>
+        <div class="setting-card">
+          <label><input id="shuffleToggle" type="checkbox" /> 随机抽题</label>
+          <label><input id="autoHideToggle" type="checkbox" /> 下一题自动隐藏答案</label>
+          <label><input id="largeFontToggle" type="checkbox" /> 大字号模式</label>
+        </div>
+        <div class="stat-card">
+          <h2>学习统计</h2>
+          <div id="statsText"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
